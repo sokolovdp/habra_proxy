@@ -32,7 +32,7 @@ def filter_html_content(html_dom):
         if new_href:
             a_tag['href'] = new_href
 
-    for div in soup.find_all("div", {"class": "post__text"}):
+    for div in soup.find_all("div", attrs=habra_init.TEXT_CLASS):
         for i, element in enumerate(div.contents):
             if element.name == 'p':
                 for j, sub_element in enumerate(element.contents):
