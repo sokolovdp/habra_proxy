@@ -31,5 +31,10 @@ def filter_html_content(html_dom):
             if isinstance(element, bs4.element.NavigableString) and (len(element) >= habra_init.WORD_LENGTH):
                 updated_element = add_trademark(element)
                 div.contents[i] = NavigableString(updated_element)
+            elif element.name == 'p':
+                for j, sub_element in enumerate(element.contents):
+                    if isinstance(sub_element, bs4.element.NavigableString) and (len(sub_element) >= habra_init.WORD_LENGTH):
+                        updated_element = add_trademark(sub_element)
+                        element.contents[j] = NavigableString(updated_element)
 
     return unicode(soup)
