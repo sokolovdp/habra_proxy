@@ -5,11 +5,9 @@ import bs4
 from bs4 import BeautifulSoup, NavigableString
 import habra_init
 
-w6 = re.compile(habra_init.PATTERN, re.UNICODE)
-
 
 def add_trademark(text):
-    return re.sub(w6, ur'\1' + habra_init.TRADEMARK, text, re.UNICODE)
+    return re.sub(habra_init.MATCH, ur'\1' + habra_init.TRADEMARK, text, re.UNICODE)
 
 
 def replace_tag_content_if_it_is_a_navigable_string(tag, content, position):
