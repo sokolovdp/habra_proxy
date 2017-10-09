@@ -21,7 +21,7 @@ def replace_tag_content_if_it_is_a_navigable_string(tag, content, position):
 def filter_html_content(html_dom):
     soup = BeautifulSoup(html_dom, "html5lib")
 
-    for a_tag in soup.findAll('a', href=True):
+    for a_tag in soup.find_all('a', href=True):
         new_href = None
         if habra_init.HABRA_URL in a_tag['href']:
             new_href = a_tag['href'].replace(habra_init.HABRA_URL, habra_init.PROXY_URL)
