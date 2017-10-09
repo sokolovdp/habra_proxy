@@ -12,6 +12,12 @@ def add_trademark(text):
     return re.sub(w6, ur'\1' + habra_init.TRADEMARK, text, re.UNICODE)
 
 
+def replace_tag_content_if_it_is_a_navigable_string(tag, context, position):
+    if isinstance(context, bs4.element.NavigableString) and (len(context) >= habra_init.WORD_LENGTH):
+        updated_context = add_trademark(context)
+        tag.contents[position] = NavigableString(updated_context)
+
+
 def filter_html_content(html_dom):
     soup = BeautifulSoup(html_dom, "html5lib")
 
@@ -28,13 +34,10 @@ def filter_html_content(html_dom):
 
     for div in soup.find_all("div", {"class": "post__text"}):
         for i, element in enumerate(div.contents):
-            if isinstance(element, bs4.element.NavigableString) and (len(element) >= habra_init.WORD_LENGTH):
-                updated_element = add_trademark(element)
-                div.contents[i] = NavigableString(updated_element)
-            elif element.name == 'p':
+            if element.name == 'p':
                 for j, sub_element in enumerate(element.contents):
-                    if isinstance(sub_element, bs4.element.NavigableString) and (len(sub_element) >= habra_init.WORD_LENGTH):
-                        updated_element = add_trademark(sub_element)
-                        element.contents[j] = NavigableString(updated_element)
+                    replace_tag_content_if_it_is_a_navigable_string(element, sub_element, j)
+            else:
+                replace_tag_content_if_it_is_a_navigable_string(div, element, i)
 
     return unicode(soup)
