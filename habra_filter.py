@@ -12,8 +12,7 @@ def add_trademark(text):
 
 def replace_tag_content_if_it_is_a_navigable_string(tag, content, position):
     if isinstance(content, bs4.element.NavigableString) and (len(content) >= habra_init.WORD_LENGTH):
-        updated_context = add_trademark(content)
-        tag.contents[position] = NavigableString(updated_context)
+        tag.contents[position] = NavigableString(add_trademark(content))
 
 
 def filter_html_content(html_dom):
