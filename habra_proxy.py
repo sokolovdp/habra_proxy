@@ -32,9 +32,9 @@ class UwsgiRouter:
 
 
 def get_method(habra_router, path="/", **kwargs):
-    page = requests.get(habra_init.HABRA_URL + path)
-    new_html_page = filter_html_content(page.text)
-    habra_router.response("200", new_html_page.encode(encoding='utf-8'))
+    html_page = requests.get(habra_init.HABRA_URL + path)
+    updated_html_page = filter_html_content(html_page.text)
+    habra_router.response("200", updated_html_page.encode(encoding='utf-8'))
 
 
 routing_table = {"GET": get_method}
